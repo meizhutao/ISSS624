@@ -1,16 +1,10 @@
----
-
-title: "Take-home_Ex1: Geospatial Analytics for Social Good"
-
-editor: visual
-
----
+# Geospatial Analytics for Social Good: Analyze Nigeria Water functional and non-functional water point rate
 
 # 1.0 Overview
 
 ## 1.1 Background/Problem statement
 
-Water is an important resource to mankind. Clean and accessible water is critical to human health. It provides a healthy environment, a sustainable economy, reduces poverty and ensures peace and security. Yet over 40% of the global population does not have access to sufficient clean water. By 2025, 1.8 billion people will be living in countries or regions with absolute water scarcity, according to UN-Water. The lack of water poses a major threat to several sectors, including food security. Agriculture uses about 70% of the world's accessible freshwater.
+Water is an important resource to mankind. Clean and accessible water is critical to human health. It provides a healthy environment, a sustainable economy, reduces poverty and ensures peace and security. Yet over 40% of the global population does not have access to sufficient clean water.
 
 Developing countries are most affected by water shortages and poor water quality. Up to 80% of illnesses in the developing world are linked to inadequate water and sanitation. Despite technological advancement, providing clean water to the rural community is still a major development issues in many countries globally, especially countries in the Africa continent.
 
@@ -18,7 +12,7 @@ To address the issue of providing clean and sustainable water supply to the rura
 
 # 2. Objectives
 
-Geospatial analytics hold tremendous potential to address complex problems facing society. In this study, you are tasked to apply appropriate global and local measures of spatial Association techniques to reveals the spatial patterns of Not Functional water points. For the purpose of this study, Nigeria will be used as the study country.
+Geospatial analytics hold tremendous potential to address complex problems facing society. In this study, I will apply appropriate global and local measures of spatial Association techniques to reveals the spatial patterns of Not Functional water points. For the purpose of this study, Nigeria will be used as the study country.
 
 # 3 Getting Started
 
@@ -194,6 +188,8 @@ Now, we have the tidy sf data table subsequent analysis. We will save the sf dat
 write_rds(nga_wp, "data/geospatial/nga_wp.rds")
 ```
 
+We will have two datasets, one is used to analyze functional water points, the other is used to analyze functional water points.
+
 ```{r}
 nga_wp <- read_rds("data/geospatial/nga_wp.rds") %>% 
   st_transform(crs = 26391)
@@ -255,7 +251,7 @@ tmap_arrange(equal,
              ncol=2)
 ```
 
-Insights: quantile is a better classification method because we can see water point rate spreads out rather clustering into one segment. Hence, we will use quantile style in the next analysis.
+Insights: quantile is a better classification method because we can see water point rate spreads out rather clustering into one segment. Hence, we will use quantile style in the following analysis.
 
 # 6 Visualize the spatial distribution
 
@@ -307,17 +303,13 @@ tmap_arrange(total, wp_functional, wp_nonfunctional, unknown, ncol=2)
 ## 6.2 Visualizing the spatial distribution of functional and non-functional water points rate
 
 ```{r}
-
 nga_wp <- read_rds("data/geospatial/nga_wp.rds")
-
 pct_functional <- qtm(nga_wp, "pct_functional")
 pct_nonfunctional <- qtm(nga_wp, "pct_non-functional")
-
-
 tmap_arrange(pct_functional, pct_nonfunctional, asp=1, ncol=2)
 ```
 
-Insights: the areas which has higher functional water point rate is in northeast whereas the higher non-functional water point rate is in southwest.
+The areas which has higher functional water point rate is in northern part whereas the higher non-functional water point rate is mainly in southern part and a bit scattered.
 
 # 7 Global Spatial Autocorrelation
 
@@ -371,7 +363,7 @@ moran.test(nga_wp$`pct_functional`,
            na.action=na.omit)
 ```
 
-Interpretation: Moran I statistic is positive (0.54), p-value is 2.2e-16, which is less then 0.001, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.
+Moran I statistic is positive (0.54), p-value is 2.2e-16, which is less than 0.05, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.
 
 ## 7.5 Computing local Moran's I
 
@@ -409,7 +401,7 @@ tm_shape(nga.localMI_functional) +
   tm_borders(alpha = 0.5)
 ```
 
-Insights: Moran's I positive (I\>0): Clusters of functional water point rate are at northeast. The dark blue is highly clustered.
+Moran's I positive (I \>0): Clusters of functional water point rate are at northeast. The dark blue is highly clustered.
 
 ### 7.5.3 Mapping local Moran's I p-values
 
@@ -424,7 +416,7 @@ tm_shape(nga.localMI_functional) +
   tm_borders(alpha = 0.5)
 ```
 
-Insights: p-value \<0.05 is statistically significant.
+Insights: p-value \<0.05 is statistically significant.The lower p-value, the higher significance.
 
 ### 7.5.4 Mapping both local Moran's I values and p-values
 
@@ -447,7 +439,7 @@ pvalue.map_functional <- tm_shape(nga.localMI_functional) +
 tmap_arrange(localMI.map_functional, pvalue.map_functional, ncol=2)
 ```
 
-Interpretation: local Moran's I values is positive (I\>0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered, there are about 4 clusters.
+Local Moran's I values is positive (I \>0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset of of high values and/or low values are more spatially clustered, there are about 4 clusters.
 
 # 8 Creating a LISA Cluster Map for functional water point rate
 
@@ -545,13 +537,13 @@ tm_shape(nga.localMI_functional) +
   tm_borders(alpha=0.5)
 ```
 
-Insights: dark blue area are clusters of (Low-low) water point rate. red area are clusters of (High-high) water point rate. orange and light blue are outliers.
+Dark blue areas are clusters of (Low-low) water point rate. Red areas are clusters of (High-high) water point rate. Orange and light blue are outliers.
 
 ```{r}
 tmap_arrange(localMI.map_functional, pvalue.map_functional, ncol=2)
 ```
 
-Interpretation: local Moran's I values is positive (I\>0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered, there are about 4 clusters. This matches the analysis of LISA MAP cluster analysis.
+Local Moran's I values is positive (I \>0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered, there are about 4 clusters. This matches the analysis of LISA MAP cluster analysis.
 
 ```{r}
 func <- qtm(nga_wp, "pct_functional")
@@ -573,7 +565,7 @@ tmap_arrange(func, LISAmap_functional,
              asp=1, ncol=2)
 ```
 
-Insights: the pct_functional map shows: red is highest functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.
+The pct_functional map shows: red is highest functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.
 
 # 9 Hot Spot and Cold Spot Area Analysis
 
@@ -610,7 +602,7 @@ k1dists <- unlist(nbdists(k1, coords, longlat = FALSE))
 summary(k1dists)
 ```
 
-The summary report shows that the largest first nearest neighbour distance is 72139 km, so using this as the upper threshold gives certainty that all units will have at least one neighbour.
+The summary report shows that the largest first nearest neighbour distance is 72.139 km, so using this as the upper threshold gives certainty that all units will have at least one neighbour.
 
 ### 9.2.2 Computing fixed distance weight matrix
 
@@ -670,7 +662,7 @@ Gimap <-tm_shape(nga_wp.gi) +
 tmap_arrange(func, Gimap, asp=1, ncol=2)
 ```
 
-Insights: Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 5-10. Gi low values (-10 to -5) indicated cold spots.
+Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 5-10. Gi low values (-10 to -5) indicated cold spots.
 
 ## 10.3 Gi statistics using adaptive distance
 
@@ -699,7 +691,7 @@ tmap_arrange(func,
              ncol=2)
 ```
 
-Insights: Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4,-4 to -2) indicated cold spots.
+Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4,-4 to -2) indicated cold spots.
 
 # 11 Global Spatial Autocorrelation
 
@@ -747,7 +739,7 @@ moran.test(nga_wp_nonfunctional$`pct_non-functional`,
            na.action=na.omit)
 ```
 
-Interpretation: Moran I statistic is positive (0.48), p-value is 2.2e-16,which is less then 0.001, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.
+Moran I statistic is positive (0.48), p-value is 2.2e-16,which is less then 0.001, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.
 
 ## 11.3 Computing local Moran's I
 
@@ -821,7 +813,7 @@ pvalue.map_non_functional <- tm_shape(nga.localMI_non_functional) +
 tmap_arrange(localMI.map_non_functional, pvalue.map_non_functional, ncol=2)
 ```
 
-Interpretation: local Moran's I values is positive (I\>0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered.
+Local Moran's I values is positive (I\>0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered.
 
 # 12 Creating a LISA Cluster Map for non-functional water point rate
 
@@ -943,7 +935,7 @@ We can also include the local Moran's I map and p-value map as shown below for e
 tmap_arrange(localMI.map_non_functional, pvalue.map_non_functional, ncol=2)
 ```
 
-Insights: the pct_functional map shows: red is highest non-functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.
+The pct_functional map shows: red is highest non-functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.
 
 # Hot Spot and Cold Spot Area Analysis
 
@@ -1047,7 +1039,7 @@ Gimap_non_functional <-tm_shape(nga_wp_nonfunctional.gi) +
 tmap_arrange(nonfunc, Gimap_non_functional, asp=1, ncol=2)
 ```
 
-Insights: non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 4 to 6, 6 to 8, 8 to 10. Gi low values (-6 to -4, -4 to -2) indicated cold spots.
+Non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 4 to 6, 6 to 8, 8 to 10. Gi low values (-6 to -4, -4 to -2) indicated cold spots.
 
 ## 13.3 Gi statistics using adaptive distance
 
@@ -1077,4 +1069,4 @@ tmap_arrange(nonfunc,
 
 ```
 
-Insights: non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4, -4 to -2) indicated cold spots.
+Non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4, -4 to -2) indicated cold spots.

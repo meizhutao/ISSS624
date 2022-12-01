@@ -200,7 +200,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1.0 Overview</a>
+  <li><a href="#geospatial-analytics-for-social-good-analyze-nigeria-water-functional-and-non-functional-water-point-rate" id="toc-geospatial-analytics-for-social-good-analyze-nigeria-water-functional-and-non-functional-water-point-rate" class="nav-link active" data-scroll-target="#geospatial-analytics-for-social-good-analyze-nigeria-water-functional-and-non-functional-water-point-rate">Geospatial Analytics for Social Good: Analyze Nigeria Water functional and non-functional water point rate</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">1.0 Overview</a>
   <ul class="collapse">
   <li><a href="#backgroundproblem-statement" id="toc-backgroundproblem-statement" class="nav-link" data-scroll-target="#backgroundproblem-statement">1.1 Background/Problem statement</a></li>
   </ul></li>
@@ -327,22 +328,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<hr>
-<p>title: “Take-home_Ex1: Geospatial Analytics for Social Good”</p>
-<p>editor: visual</p>
-<hr>
+<section id="geospatial-analytics-for-social-good-analyze-nigeria-water-functional-and-non-functional-water-point-rate" class="level1">
+<h1>Geospatial Analytics for Social Good: Analyze Nigeria Water functional and non-functional water point rate</h1>
+</section>
 <section id="overview" class="level1">
 <h1>1.0 Overview</h1>
 <section id="backgroundproblem-statement" class="level2">
 <h2 class="anchored" data-anchor-id="backgroundproblem-statement">1.1 Background/Problem statement</h2>
-<p>Water is an important resource to mankind. Clean and accessible water is critical to human health. It provides a healthy environment, a sustainable economy, reduces poverty and ensures peace and security. Yet over 40% of the global population does not have access to sufficient clean water. By 2025, 1.8 billion people will be living in countries or regions with absolute water scarcity, according to UN-Water. The lack of water poses a major threat to several sectors, including food security. Agriculture uses about 70% of the world’s accessible freshwater.</p>
+<p>Water is an important resource to mankind. Clean and accessible water is critical to human health. It provides a healthy environment, a sustainable economy, reduces poverty and ensures peace and security. Yet over 40% of the global population does not have access to sufficient clean water.</p>
 <p>Developing countries are most affected by water shortages and poor water quality. Up to 80% of illnesses in the developing world are linked to inadequate water and sanitation. Despite technological advancement, providing clean water to the rural community is still a major development issues in many countries globally, especially countries in the Africa continent.</p>
 <p>To address the issue of providing clean and sustainable water supply to the rural community, a global Water Point Data Exchange (WPdx) project has been initiated. The main aim of this initiative is to collect water point related data from rural areas at the water point or small water scheme level and share the data via WPdx Data Repository, a cloud-based data library. What is so special of this project is that data are collected based on WPDx Data Standard.</p>
 </section>
 </section>
 <section id="objectives" class="level1">
 <h1>2. Objectives</h1>
-<p>Geospatial analytics hold tremendous potential to address complex problems facing society. In this study, you are tasked to apply appropriate global and local measures of spatial Association techniques to reveals the spatial patterns of Not Functional water points. For the purpose of this study, Nigeria will be used as the study country.</p>
+<p>Geospatial analytics hold tremendous potential to address complex problems facing society. In this study, I will apply appropriate global and local measures of spatial Association techniques to reveals the spatial patterns of Not Functional water points. For the purpose of this study, Nigeria will be used as the study country.</p>
 </section>
 <section id="getting-started" class="level1">
 <h1>3 Getting Started</h1>
@@ -489,6 +489,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(nga_wp, <span class="st">"data/geospatial/nga_wp.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>We will have two datasets, one is used to analyze functional water points, the other is used to analyze functional water points.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>nga_wp <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/geospatial/nga_wp.rds"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">26391</span>)</span>
@@ -551,7 +552,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: quantile is a better classification method because we can see water point rate spreads out rather clustering into one segment. Hence, we will use quantile style in the next analysis.</p>
+<p>Insights: quantile is a better classification method because we can see water point rate spreads out rather clustering into one segment. Hence, we will use quantile style in the following analysis.</p>
 </section>
 </section>
 <section id="visualize-the-spatial-distribution" class="level1">
@@ -607,17 +608,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="visualizing-the-spatial-distribution-of-functional-and-non-functional-water-points-rate">6.2 Visualizing the spatial distribution of functional and non-functional water points rate</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nga_wp <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/geospatial/nga_wp.rds"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>pct_functional <span class="ot">&lt;-</span> <span class="fu">qtm</span>(nga_wp, <span class="st">"pct_functional"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>pct_nonfunctional <span class="ot">&lt;-</span> <span class="fu">qtm</span>(nga_wp, <span class="st">"pct_non-functional"</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(pct_functional, pct_nonfunctional, <span class="at">asp=</span><span class="dv">1</span>, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pct_functional <span class="ot">&lt;-</span> <span class="fu">qtm</span>(nga_wp, <span class="st">"pct_functional"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>pct_nonfunctional <span class="ot">&lt;-</span> <span class="fu">qtm</span>(nga_wp, <span class="st">"pct_non-functional"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(pct_functional, pct_nonfunctional, <span class="at">asp=</span><span class="dv">1</span>, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: the areas which has higher functional water point rate is in northeast whereas the higher non-functional water point rate is in southwest.</p>
+<p>The areas which has higher functional water point rate is in northern part whereas the higher non-functional water point rate is mainly in southern part and a bit scattered.</p>
 </section>
 </section>
 <section id="global-spatial-autocorrelation" class="level1">
@@ -712,7 +710,7 @@ Moran I statistic       Expectation          Variance
      0.5426214187     -0.0012953368      0.0004738722 </code></pre>
 </div>
 </div>
-<p>Interpretation: Moran I statistic is positive (0.54), p-value is 2.2e-16, which is less then 0.001, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.</p>
+<p>Moran I statistic is positive (0.54), p-value is 2.2e-16, which is less than 0.05, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.</p>
 </section>
 </section>
 <section id="computing-local-morans-i" class="level2">
@@ -759,7 +757,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: Moran’s I positive (I&gt;0): Clusters of functional water point rate are at northeast. The dark blue is highly clustered.</p>
+<p>Moran’s I positive (I &gt;0): Clusters of functional water point rate are at northeast. The dark blue is highly clustered.</p>
 </section>
 <section id="mapping-local-morans-i-p-values" class="level3">
 <h3 class="anchored" data-anchor-id="mapping-local-morans-i-p-values">7.5.3 Mapping local Moran’s I p-values</h3>
@@ -775,7 +773,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: p-value &lt;0.05 is statistically significant.</p>
+<p>Insights: p-value &lt;0.05 is statistically significant.The lower p-value, the higher significance.</p>
 </section>
 <section id="mapping-both-local-morans-i-values-and-p-values" class="level3">
 <h3 class="anchored" data-anchor-id="mapping-both-local-morans-i-values-and-p-values">7.5.4 Mapping both local Moran’s I values and p-values</h3>
@@ -802,7 +800,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Interpretation: local Moran’s I values is positive (I&gt;0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered, there are about 4 clusters.</p>
+<p>Local Moran’s I values is positive (I &gt;0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset of of high values and/or low values are more spatially clustered, there are about 4 clusters.</p>
 </section>
 </section>
 </section>
@@ -892,7 +890,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: dark blue area are clusters of (Low-low) water point rate. red area are clusters of (High-high) water point rate. orange and light blue are outliers.</p>
+<p>Dark blue areas are clusters of (Low-low) water point rate. Red areas are clusters of (High-high) water point rate. Orange and light blue are outliers.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(localMI.map_functional, pvalue.map_functional, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -902,7 +900,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Interpretation: local Moran’s I values is positive (I&gt;0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered, there are about 4 clusters. This matches the analysis of LISA MAP cluster analysis.</p>
+<p>Local Moran’s I values is positive (I &gt;0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered, there are about 4 clusters. This matches the analysis of LISA MAP cluster analysis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>func <span class="ot">&lt;-</span> <span class="fu">qtm</span>(nga_wp, <span class="st">"pct_functional"</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -925,7 +923,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: the pct_functional map shows: red is highest functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.</p>
+<p>The pct_functional map shows: red is highest functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.</p>
 </section>
 </section>
 <section id="hot-spot-and-cold-spot-area-analysis" class="level1">
@@ -959,7 +957,7 @@ Moran I statistic       Expectation          Variance
    2669   12834   20304   22084   27783   72139 </code></pre>
 </div>
 </div>
-<p>The summary report shows that the largest first nearest neighbour distance is 72139 km, so using this as the upper threshold gives certainty that all units will have at least one neighbour.</p>
+<p>The summary report shows that the largest first nearest neighbour distance is 72.139 km, so using this as the upper threshold gives certainty that all units will have at least one neighbour.</p>
 </section>
 <section id="computing-fixed-distance-weight-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="computing-fixed-distance-weight-matrix">9.2.2 Computing fixed distance weight matrix</h3>
@@ -1082,7 +1080,7 @@ B 774 599076 6192 11154 201940</code></pre>
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 5-10. Gi low values (-10 to -5) indicated cold spots.</p>
+<p>Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 5-10. Gi low values (-10 to -5) indicated cold spots.</p>
 </section>
 <section id="gi-statistics-using-adaptive-distance" class="level2">
 <h2 class="anchored" data-anchor-id="gi-statistics-using-adaptive-distance">10.3 Gi statistics using adaptive distance</h2>
@@ -1116,7 +1114,7 @@ B 774 599076 6192 11154 201940</code></pre>
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4,-4 to -2) indicated cold spots.</p>
+<p>Functional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4,-4 to -2) indicated cold spots.</p>
 </section>
 </section>
 <section id="global-spatial-autocorrelation-1" class="level1">
@@ -1204,7 +1202,7 @@ Moran I statistic       Expectation          Variance
      0.4837570240     -0.0012953368      0.0004737621 </code></pre>
 </div>
 </div>
-<p>Interpretation: Moran I statistic is positive (0.48), p-value is 2.2e-16,which is less then 0.001, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.</p>
+<p>Moran I statistic is positive (0.48), p-value is 2.2e-16,which is less then 0.001, which indicates that we can reject the Null Hypothesis. The spatial distribution of high values in the dataset is more spatially clustered than would be expected if underlying spatial processes were truly random.</p>
 </section>
 </section>
 <section id="computing-local-morans-i-1" class="level2">
@@ -1293,7 +1291,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-61-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Interpretation: local Moran’s I values is positive (I&gt;0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered.</p>
+<p>Local Moran’s I values is positive (I&gt;0), and p-values is less than 0.05: Clustered, The spatial distribution of high values of functional water point rate in the dataset is more spatially clustered.</p>
 </section>
 </section>
 </section>
@@ -1414,7 +1412,7 @@ Moran I statistic       Expectation          Variance
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-73-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: the pct_functional map shows: red is highest non-functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.</p>
+<p>The pct_functional map shows: red is highest non-functional water point rate. the yellow is the lightest water point rate. The quadrant_functional shows:dark blue area are clusters of (Low-low) water point rate.red area are clusters of (High-high) water point rate. Orange and light blue are outliers. The insights drawn from two maps match each other.</p>
 </section>
 </section>
 <section id="hot-spot-and-cold-spot-area-analysis-1" class="level1">
@@ -1576,7 +1574,7 @@ B 774 599076 6192 11154 201940</code></pre>
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-82-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 4 to 6, 6 to 8, 8 to 10. Gi low values (-6 to -4, -4 to -2) indicated cold spots.</p>
+<p>Non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 4 to 6, 6 to 8, 8 to 10. Gi low values (-6 to -4, -4 to -2) indicated cold spots.</p>
 </section>
 <section id="gi-statistics-using-adaptive-distance-1" class="level2">
 <h2 class="anchored" data-anchor-id="gi-statistics-using-adaptive-distance-1">13.3 Gi statistics using adaptive distance</h2>
@@ -1610,7 +1608,7 @@ B 774 599076 6192 11154 201940</code></pre>
 <p><img src="Take-home_Ex1_files/figure-html/unnamed-chunk-84-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Insights: non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4, -4 to -2) indicated cold spots.</p>
+<p>Non-unctional water point rates are associated with relatively high values of the surrounding locations (clustered- hotspot areas), the Gi value 2 to 4, 4 to 6. Gi low values (-6 to -4, -4 to -2) indicated cold spots.</p>
 
 
 </section>
