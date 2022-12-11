@@ -15,12 +15,16 @@ website:
             href: Hands-on_Exercise/Hands-on_Ex2/chap04/Hands-on_Ex2.qmd
           - text: Hands-on Exercise 3 chap05
             href: Hands-on_Exercise/Hands-on_Ex3/chap05/Hands-on_Ex3.qmd
+          - text: Hands-on Exercise 4 chap06
+            href: Hands-on_Exercise/Hands-on_Ex4/chap06/Hands-on_Ex4.qmd
       - text: In-Class_Exercise
         menu: 
           - text: In-Class Exercise 1 chap03
             href: In-Class_Exercise/In-class_Ex01/In-class_Ex01.qmd
           - text: In-Class Exercise 2 chap05
             href: In-Class_Exercise/In-class_Ex02/In-class_Ex02.qmd
+          - text: In-Class Exercise 3 chap06
+            href: In-Class_Exercise/In-class_Ex03/chap06/In-class_Ex03.qmd
       - text: Take-home_Exercise
         menu: 
           - text: Take-home Exercise 1
