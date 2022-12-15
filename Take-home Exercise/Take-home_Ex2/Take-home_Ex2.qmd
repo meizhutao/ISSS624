@@ -8,7 +8,12 @@ In take home exercise 01, we have applied spatial Association techniques to reve
 
 In this take-home exercise we are required to regionalise Nigeria by using, but not limited to the following measures:
 
-Total number of functional water points Total number of nonfunctional water points Percentage of functional water points Percentage of non-functional water points Percentage of main water point technology (i.e. Hand Pump) Percentage of usage capacity (i.e. \< 1000, \>=1000) Percentage of rural water points
+Total number of functional water points 
+Total number of nonfunctional water points 
+Percentage of functional water points 
+Percentage of non-functional water points 
+Percentage of main water point technology (i.e. Hand Pump) 
+Percentage of usage capacity (i.e. \< 1000, \>=1000) Percentage of rural water points
 
 # 3 Getting Started
 
@@ -72,7 +77,7 @@ wp <- st_read(dsn = "data/aspatial/",
 
 We can retrieve the geometry list-column in this case by using st_geometry() as shown in the code chunk below.
 
-```{r, eval = FALSE}
+```{r}
 st_geometry(wp)
 ```
 
@@ -153,7 +158,7 @@ length((nga$shapeName[ nga$shapeName %in% nga$shapeName[duplicated(nga$shapeName
 No more duplicated shapeName.
 
 In the code chunk below, freq() of funModeling package is used to display the distribution of status_cle field in wp_nga.
-```{r, eval = FALSE}
+```{r}
 wp_nga <- wp %>%
   mutate(status_cle = replace_na(status_cle, "Unknown"))
 
@@ -169,7 +174,7 @@ freq(data=wp_nga,
 
 In the code chunk below, filter() of dplyr is used to select functional water points.
 
-```{r, eval = FALSE}
+```{r}
 wpt_functional <- wp_nga %>%
   filter(status_cle %in%
            c("Functional", 
@@ -177,14 +182,14 @@ wpt_functional <- wp_nga %>%
              "Functional but needs repair"))
 ```
 
-```{r, eval = FALSE}
+```{r}
 freq(data=wpt_functional, 
      input = 'status_cle')
 ```
 
 ### 4.3.2 Extracting non-funtional water point
 
-```{r, eval = FALSE}
+```{r}
 wpt_nonfunctional <- wp_nga %>%
   filter(status_cle %in%
            c("Abandoned/Decommissioned", 
@@ -225,7 +230,7 @@ wpt_mechanizedpump <- wp_nga%>%
 
 
 ### 4.3.3 Extracting usage capacity
-```{r}
+```{r }
 freq(data=wp_nga, 
      input = 'usage_cap')
 ```
@@ -256,7 +261,7 @@ wpt_rural <- wp_nga%>%
 
 ## 4.4 Performing Point-in-Polygon Count
 
-```{r, eval = FALSE}
+```{r}
 
 nga_wp <- nga %>% 
   mutate(`total wpt` = lengths(
@@ -281,7 +286,7 @@ nga_wp <- nga %>%
 
 ## 4.5 Saving the Analytical Data Table
 
-```{r, eval = FALSE}
+```{r}
 nga_wp <- nga_wp %>%
   mutate(pct_functional = `wpt functional`/`total wpt`)%>%
   mutate(`pct_non-functional` = `wpt non-functional`/`total wpt`) %>%
@@ -298,7 +303,7 @@ Things to learn from the code chunk above:
 mutate() of dplyr package is used to derive two fields namely pct_functional and pct_non-functional. to keep the file size small, select() of dplyr is used to retain only field 1, 6 to 12.
 
 The following code chunks is to covert NaN to "0".
-```{r, eval = FALSE}
+```{r}
 nga_wp$pct_functional[is.nan(nga_wp$pct_functiona)]<-0
 nga_wp$`pct_non-functional`[is.nan(nga_wp$`pct_non-functional`)]<-0
 nga_wp$pct_handpump[is.nan(nga_wp$pct_handpump)]<-0
@@ -309,7 +314,7 @@ nga_wp$`pct_rural`[is.nan(nga_wp$`pct_rural`)]<-0
 ```
 
 Now, we have the tidy sf data table subsequent analysis. We will save the sf data table into rds format.
-```{r, eval = FALSE}
+```{r}
 write_rds(nga_wp, "data/geospatial/nga_wp.rds")
 ```
 
@@ -561,10 +566,12 @@ We can see the pct_handpump and pct_usage_less_1000 are showing similar chorople
 Before we perform cluster analysis, it is important for us to ensure that the cluster variables are not highly correlated.
 
 We will use corrplot.mixed() function of corrplot package to visualise and analyse the correlation of the input variables.
-```{r cluster_vars.cor, fig.height = 3, fig.width = 5}
+```{r}
 nga_wp_var <- nga_wp %>%
   st_set_geometry(NULL)
+```
 
+```{r cluster_vars.cor, fig.height = 5, fig.width = 5}
 cluster_vars.cor = cor(nga_wp_var[,11:17])
 corrplot.mixed(cluster_vars.cor,
          lower = "ellipse", 
@@ -655,7 +662,7 @@ proxmat <- dist(cluster_vars.std, method = 'euclidean')
 
 The code chunk below can then be used to list the content of proxmat for visual inspection.
 ```{r}
-proxmat
+#proxmat
 ```
 
 ## 7.5 Computing hierarchical clustering
@@ -830,12 +837,12 @@ nga_wp.nb <- poly2nb(nga_wp_sp)
 summary(nga_wp.nb)
 ```
 We can plot the neighbours list on nga_wp_sp by using the code chunk below. 
-```{r plot, fig.height = 10, fig.width = 15}
-
+```{r}
+#|fig.width = 15
 plot(nga_wp_sp, 
      border=grey(.5))
 plot(nga_wp.nb, 
-     coordinates(nga_wp_sp), 
+    coordinates(nga_wp_sp), 
      col="blue", 
      add=TRUE)
 ```
@@ -883,7 +890,8 @@ head(nga_wp.mst)
 
 The plot method for the MST include a way to show the observation numbers of the nodes in addition to the edge. As before, we plot this together with the nga_wp boundaries. We can see how the initial neighbour list is simplified to just one edge connecting each of the nodes, while passing through all the nodes.
 
-```{r plot, fig.height = 10, fig.width = 15}
+```{r }
+#| fig.width = 15
 plot(nga_wp_sp, border=gray(.5))
 plot.mst(nga_wp.mst, 
          coordinates(nga_wp_sp), 

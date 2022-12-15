@@ -29,7 +29,7 @@ website:
         menu: 
           - text: Take-home Exercise 1
             href: Take-home Exercise/Take-home_Ex1/Take-home_Ex1.qmd
-        menu: 
+
           - text: Take-home Exercise 2
             href: Take-home Exercise/Take-home_Ex2/Take-home_Ex2.qmd
     right: 
