@@ -1,0 +1,28 @@
+---
+title: "Take-home_Ex2：Regionalisation of Multivariate Water Point Attributes with Non-spatially Constrained and Spatially Constrained Clustering Methods"
+editor: visual
+---
+
+# Overview
+This in-class exercise note aims to share with ways to handle aspatial and geospatial data that might be useful when you work on Take-home Exercise 2. By the end of this in-class exercise, you will be able to:
+
+import geospatial data in wkt format into R,
+
+convert the tibble data frame with wkt field into sf data frame, and
+
+performing point-in-polygon overlay.
+
+# Getting Started
+As usual, to get started, we will load the necessary R packages. For the purpose of this in-class exercise, three R packages will be used, they are:
+
+sf for importing and processing geospatial data,
+
+tidyverse for importing and processing non-spatial data. In this exercise, readr package will be used for importing wkt data and dplyr package will be used to wrangling the data.
+```{r}
+pacman::p_load(sf, tidyverse)
+```
+
+# Data Import
+In this in-class exercise, two data sets will be used. They are:
+## Importing water point data
+First, we are going to import the water point data into R environment.
