@@ -158,7 +158,7 @@ length((nga$shapeName[ nga$shapeName %in% nga$shapeName[duplicated(nga$shapeName
 No more duplicated shapeName.
 
 In the code chunk below, freq() of funModeling package is used to display the distribution of status_cle field in wp_nga.
-```{r}
+```{r, eval = FALSE}
 wp_nga <- wp %>%
   mutate(status_cle = replace_na(status_cle, "Unknown"))
 
@@ -182,7 +182,7 @@ wpt_functional <- wp_nga %>%
              "Functional but needs repair"))
 ```
 
-```{r}
+```{r, eval = FALSE}
 freq(data=wpt_functional, 
      input = 'status_cle')
 ```
@@ -199,7 +199,7 @@ wpt_nonfunctional <- wp_nga %>%
              "Non-Functional due to dry season"))
 ```
 
-```{r}
+```{r, eval = FALSE}
 freq(data=wpt_nonfunctional, 
      input = 'status_cle')
 ```
@@ -571,7 +571,7 @@ nga_wp_var <- nga_wp %>%
   st_set_geometry(NULL)
 ```
 
-```{r cluster_vars.cor, fig.height = 5, fig.width = 5}
+```{r cluster_vars.cor, fig.height = 5, fig.width = 6}
 cluster_vars.cor = cor(nga_wp_var[,11:17])
 corrplot.mixed(cluster_vars.cor,
          lower = "ellipse", 
@@ -838,7 +838,7 @@ summary(nga_wp.nb)
 ```
 We can plot the neighbours list on nga_wp_sp by using the code chunk below. 
 ```{r}
-#|fig.width = 15
+#|fig.width = 20
 plot(nga_wp_sp, 
      border=grey(.5))
 plot(nga_wp.nb, 
@@ -891,7 +891,7 @@ head(nga_wp.mst)
 The plot method for the MST include a way to show the observation numbers of the nodes in addition to the edge. As before, we plot this together with the nga_wp boundaries. We can see how the initial neighbour list is simplified to just one edge connecting each of the nodes, while passing through all the nodes.
 
 ```{r }
-#| fig.width = 15
+#| fig.width = 20
 plot(nga_wp_sp, border=gray(.5))
 plot.mst(nga_wp.mst, 
          coordinates(nga_wp_sp), 
