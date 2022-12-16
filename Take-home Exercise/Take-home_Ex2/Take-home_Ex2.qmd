@@ -574,7 +574,7 @@ nga_wp_var <- nga_wp %>%
 ```
 
 ```{r cluster_vars.cor, fig.height = 5, fig.width = 6}
-cluster_vars.cor = cor(nga_wp_var[,4:10])
+cluster_vars.cor = cor(nga_wp_var[,2:10])
 corrplot.mixed(cluster_vars.cor,
          lower = "ellipse", 
                upper = "number",
@@ -583,7 +583,7 @@ corrplot.mixed(cluster_vars.cor,
                tl.col = "black")
 ```
 
-If coefficient is between 0.8 to 1, it suggests there is a strong correlation. pct_usage_less_1000 is having strong correlation with pct_handpump and pct_usage_more_1000 is having strong correlation with pct_mechanizedpump. Hence, we remove pct_usage_less_1000, pct_usage_more_1000
+If coefficient is between 0.7 to 1, it suggests there is a strong correlation. pct_usage_less_1000 & pct_handpump, pct_usage_more_1000 &pct_mechanizedpump,pct_handpump & pct_mechanizedpump are having strong correlation with . Hence, we remove pct_usage_less_1000, pct_usage_more_1000, pct_mechanizedpump.
 
 # 7 Hierarchy Cluster Analysis
 The analysis consists of four major steps:
@@ -591,7 +591,7 @@ The analysis consists of four major steps:
 The code chunk below will be used to extract the clustering variables from the shan_sf simple feature object into data.frame.
 ```{r}
 nga_wp <- nga_wp %>%
-  select("shapeName","wpt functional","wpt non-functional", "pct_functional","pct_non-functional", "pct_handpump", "pct_mechanizedpump", "pct_rural")
+  select("shapeName","wpt functional","wpt non-functional", "pct_functional","pct_non-functional", "pct_handpump",  "pct_rural")
 cluster_vars <- nga_wp %>%
   st_set_geometry(NULL) 
 head(cluster_vars,10)
@@ -605,7 +605,7 @@ Notice that the row number has been replaced into the township name.
 
 Now, we will delete the ShapeName field by using the code chunk below.
 ```{r}
-cluster_vars <- select(cluster_vars, c(2:8))
+cluster_vars <- select(cluster_vars, c(2:7))
 head(cluster_vars, 10)
 ```
 
@@ -616,7 +616,9 @@ In general, multiple variables will be used in cluster analysis. It is not unusu
 In this study, we know wpt functional and wpt non-funtional are water points count, however, the other variables are in percentage (ranging from 0 to 1). Hence, will normalize wpt functional and wpt non-funtiona.
 ```{r}
 cluster_vars.std <- normalize(cluster_vars,c(1:2))
+
 summary(cluster_vars.std)
+
 ```
 
 ## 7.3 Visualising the standardised clustering variables
@@ -687,7 +689,7 @@ m <- c( "average", "single", "complete", "ward")
 names(m) <- c( "average", "single", "complete", "ward")
 
 ac <- function(x) {
-  agnes(cluster_vars, method = x)$ac
+  agnes(cluster_vars.std, method = x)$ac
 }
 
 map_dbl(m, ac)
@@ -708,7 +710,7 @@ Gap Statistic Method
 To compute the gap statistic, clusGap() of cluster package will be used.
 ```{r}
 set.seed(12345)
-gap_stat <- clusGap(cluster_vars, 
+gap_stat <- clusGap(cluster_vars.std, 
                     FUN = hcut, 
                     nstart = 25, 
                     K.max = 10, 
@@ -723,14 +725,14 @@ Next, we can visualise the plot by using fviz_gap_stat() of factoextra package.
 ```{r}
 fviz_gap_stat(gap_stat)
 ```
-With reference to the gap statistic graph above, the recommended number of cluster to retain is 1. However, it is not logical to retain only one cluster. By examine the gap statistic graph, the 5-cluster gives the largest gap statistic and should be the next best cluster to pick.
+By examine the gap statistic graph, the 10-cluster gives the largest gap statistic and should be the next best cluster to pick. Here, we select 4, because the slope is relatively flat after 4 cluster.
 
 ## 7.8 Interpreting the dendrograms
 It’s also possible to draw the dendrogram with a border around the selected clusters by using rect.hclust() of R stats. The argument border is used to specify the border colors for the rectangles.
 ```{r}
 plot(hclust_ward, cex = 0.5)
 rect.hclust(hclust_ward, 
-            k = 5, 
+            k = 4, 
             border = 2:5)
 ```
 
@@ -742,19 +744,19 @@ With heatmaply, we are able to build both highly interactive cluster heatmap or 
 ### 7.9.1 Transforming the data frame into a matrix
 The code chunk below will be used to transform shan_ict data frame into a data matrix.
 ```{r}
-cluster_vars_mat <- data.matrix(cluster_vars)
+cluster_vars_mat <- data.matrix(cluster_vars.std)
 ```
 
 ### 7.9.2 Plotting interactive cluster heatmap using heatmaply()
 In the code chunk below, the heatmaply() of heatmaply package is used to build an interactive cluster heatmap.
 ```{r }
-heatmaply(normalize(cluster_vars),
+heatmaply(cluster_vars.std,
           Colv=NA,
           dist_method = "euclidean",
           hclust_method = "ward.D",
           seriate = "OLO",
           colors = Blues,
-          k_row = 5,
+          k_row = 4,
           margins = c(NA,200,60,NA),
           fontsize_row = 4,
           fontsize_col = 5,
@@ -765,11 +767,11 @@ heatmaply(normalize(cluster_vars),
 ```
 
 ## 7.10 Mapping the clusters formed
-With closed examination of the dendragram above, we have decided to retain 5 clusters.
+With closed examination of the dendragram above, we have decided to retain 4 clusters.
 
-cutree() of R Base will be used in the code chunk below to derive a 5-cluster model.
+cutree() of R Base will be used in the code chunk below to derive a 4-cluster model.
 ```{r}
-groups <- as.factor(cutree(hclust_ward, k=5))
+groups <- as.factor(cutree(hclust_ward, k=4))
 ```
 
 The code chunk below form the join in three steps:
@@ -801,7 +803,7 @@ tmap_arrange(hclust.map, nrow = 1,ncol = 1)
 Past studies shown that parallel coordinate plot can be used to reveal clustering variables by cluster very effectively. In the code chunk below, ggparcoord() of GGally package
 ```{r}
 ggparcoord(data = nga_wp_cluster,
-           columns = c(2:8),
+           columns = c(2:7),
            scale = "std",
            alphaLines = 0.1,
            boxplot = TRUE,
@@ -917,10 +919,10 @@ p2<-plot.mst(nga_wp.mst,
 
 The code chunk below compute the spatially constrained cluster using skater() of spdep package.
 ```{r}
-clust5 <- spdep::skater(edges = nga_wp.mst[,1:2], 
+clust4 <- spdep::skater(edges = nga_wp.mst[,1:2], 
                  data = cluster_vars, 
                  method = "euclidean", 
-                 ncuts = 4)
+                 ncuts = 3)
 ```
 
 The skater() takes three mandatory arguments: - the first two columns of the MST matrix (i.e. not the cost), - the data matrix (to update the costs as units are being grouped), and - the number of cuts. Note: It is set to one less than the number of clusters. So, the value specified is not the number of clusters, but the number of cuts in the graph, one less than the number of clusters.
@@ -928,21 +930,21 @@ The skater() takes three mandatory arguments: - the first two columns of the MST
 The result of the skater() is an object of class skater. We can examine its contents by using the code chunk below.
 
 ```{r}
-str(clust5)
+str(clust4)
 ```
 
 We can check the cluster assignment by using the conde chunk below.
 We can find out how many observations are in each cluster by means of the table command. 
 ```{r}
-ccs5 <- clust5$groups
-#ccs5
-table(ccs5)
+ccs4 <- clust4$groups
+#ccs4
+table(ccs4)
 ```
 
 Lastly, we can also plot the pruned tree that shows the four clusters on top of the nga_wp area.
 ```{r p3, fig.height = 20, fig.width = 15}
 p3 <- plot(nga_wp_sp, border=gray(.5))
-p3 <- plot(clust5, 
+p3 <- plot(clust4, 
      coordinates(nga_wp_sp), 
      cex.lab=.7,
      groups.colors=c("red","green","blue", "brown", "pink"),
@@ -955,7 +957,7 @@ p3 <- plot(clust5,
 The code chunk below is used to plot the newly derived clusters by using SKATER method.
 ```{r}
 nga_wp_cluster <- nga_wp_cluster [-86,]
-groups_mat <- as.matrix(clust5$groups)
+groups_mat <- as.matrix(clust4$groups)
 nga_wp_spatialcluster <- cbind(nga_wp_cluster, as.factor(groups_mat)) %>%
   rename(`SP_CLUSTER`=`as.factor.groups_mat.`)
 shclust.map <-qtm(nga_wp_spatialcluster, "SP_CLUSTER")+   
@@ -975,7 +977,7 @@ tmap_arrange(shclust.map, nrow = 1,ncol = 1)
 ## 8.7 Visual Interpretation of Clusters
 ```{r}
 ggparcoord(data = nga_wp_spatialcluster,
-           columns = c(2:8),
+           columns = c(2:7),
            scale = "std",
            alphaLines = 0.05,
            boxplot = TRUE,
@@ -1003,7 +1005,7 @@ To perform non-spatially constrained hierarchical clustering, we only need to pr
 nongeo_cluster <- hclustgeo(proxmat)
 plot(nongeo_cluster, cex = 0.5)
 rect.hclust(nongeo_cluster, 
-            k = 5, 
+            k = 4, 
             border = 2:5)
 ```
 Note that the dissimilarity matrix must be an object of class dist, i.e. an object obtained with the function dist(). For sample code chunk, please refer to 5.7.6 Computing proximity matrix
@@ -1011,7 +1013,7 @@ Note that the dissimilarity matrix must be an object of class dist, i.e. an obje
 ### 9.2.1 Mapping the clusters formed
 Similarly, we can plot the clusters on a categorical area shaded map by using the steps we learned in 5.7.12 Mapping the clusters formed.
 ```{r}
-groups <- as.factor(cutree(nongeo_cluster, k=5))
+groups <- as.factor(cutree(nongeo_cluster, k=4))
 
 nga_wp_ngeo_cluster <- cbind(nga_wp, as.matrix(groups)) %>%
   rename(`NGCLUSTER` = `as.matrix.groups.`)
@@ -1039,7 +1041,7 @@ tmap_arrange(nsh_ngeo.map, nrow = 1,ncol = 1)
 Past studies shown that parallel coordinate plot can be used to reveal clustering variables by cluster very effectively. In the code chunk below, ggparcoord() of GGally package
 ```{r}
 ggparcoord(data = nga_wp_ngeo_cluster,
-           columns = c(2:8),
+           columns = c(2:7),
            scale = "std",
            alphaLines = 0.1,
            boxplot = TRUE,
@@ -1052,7 +1054,7 @@ ggparcoord(data = nga_wp_ngeo_cluster,
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-The parallel coordinate plot above reveals that in Cluster 3&4, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a concern.
+The parallel coordinate plot above reveals that in Cluster 2&3, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a concern.
 
 ## 9.4 Spatially Constrained Hierarchical Clustering
 Before we can performed spatially constrained hierarchical clustering, a spatial distance matrix will be derived by using st_distance() of sf package.
@@ -1065,17 +1067,17 @@ Notice that as.dist() is used to convert the data frame into matrix.
 
 Next, choicealpha() will be used to determine a suitable value for the mixing parameter alpha as shown in the code chunk below.
 ```{r}
-cr <- choicealpha(proxmat, distmat, range.alpha = seq(0, 1, 0.1), K=5, graph = TRUE)
+cr <- choicealpha(proxmat, distmat, range.alpha = seq(0, 1, 0.1), K=4, graph = TRUE)
 ```
 
-With reference to the graphs above, alpha = 0.4 will be used as shown in the code chunk below.
+With reference to the graphs above, alpha = 0.5 will be used as shown in the code chunk below.
 ```{r}
-clustG <- hclustgeo(proxmat, distmat, alpha = 0.4)
+clustG <- hclustgeo(proxmat, distmat, alpha = 0.5)
 ```
 
 Next, cutree() is used to derive the cluster object.
 ```{r}
-groups <- as.factor(cutree(clustG, k=5))
+groups <- as.factor(cutree(clustG, k=4))
 ```
 
 We will then join back the group list with nga_wp polygon feature data frame by using the code chunk below.
@@ -1107,7 +1109,7 @@ tmap_arrange(sh_ngeo.map, nrow = 1,ncol = 1)
 Past studies shown that parallel coordinate plot can be used to reveal clustering variables by cluster very effectively. In the code chunk below, ggparcoord() of GGally package
 ```{r}
 ggparcoord(data = nga_wp_Gcluster,
-           columns = c(2:8),
+           columns = c(2:7),
            scale = "std",
            alphaLines = 0.1,
            boxplot = TRUE,
@@ -1128,7 +1130,7 @@ tmap_arrange(hclust.map, shclust.map,nsh_ngeo.map, sh_ngeo.map,
              asp=NA, ncol=2)
 ```
 
-we can observe that spatially constrainted clustering analysis does not clearly define variables clustering segmentation compared to other clustering analysis method. 
+We can observe that spatially constrainted clustering analysis does not clearly define variables clustering segmentation compared to other clustering analysis method. 
 Hierarchy Cluster Analysis provides better clustering segmentation compared to other clustering analysis method. 
 In this study, we will select ClustGeo method for non-spatially constrained hierarchical cluster analysis and spatially constrained cluster analysis.
 It gives the dissimilarities in the attribute/clustering variable space. D1, on the other hand, gives the dissimilarities in the constraint space. 
@@ -1143,8 +1145,10 @@ nga_wp_ngeo_cluster %>%
             mean_pct_nonfunctional = mean(pct_functional),
             mean_pct_nonfunctional = mean(pct_non.functional),
             mean_pct_handpump = mean(pct_handpump),
-            mean_pct_mechanizedpump = mean(pct_mechanizedpump),mean_pct_rural = mean(pct_rural))
+            mean_pct_rural = mean(pct_rural))
+
 ```
+The above 2 tables reveal that in Cluster 2&3, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a main concern.
 ```{r}
 nga_wp_Gcluster %>% 
   st_set_geometry(NULL) %>%
@@ -1154,9 +1158,9 @@ nga_wp_Gcluster %>%
             mean_pct_nonfunctional = mean(pct_functional),
             mean_pct_nonfunctional = mean(pct_non.functional),
             mean_pct_handpump = mean(pct_handpump),
-            mean_pct_mechanizedpump = mean(pct_mechanizedpump),mean_pct_rural = mean(pct_rural))
+            mean_pct_rural = mean(pct_rural))
 ```
 The above 2 tables reveal that in Cluster 3&4, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a main concern.
 
-We also can refer to "Multiple Parallel Coordinates Plots of non-spatially constrained hierarchical clustering variables by Cluster" and "Multiple Parallel Coordinates Plots of spatially constrained hierarchical clustering variables by Cluster". In summary, in Cluster 3&4, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a main concern, we may consider to drive action starting from cluster 3&4.
+We also can refer to "Multiple Parallel Coordinates Plots of non-spatially constrained hierarchical clustering variables by Cluster" and "Multiple Parallel Coordinates Plots of spatially constrained hierarchical clustering variables by Cluster". In summary, southwest of Nigeria  has the highest risk of suffering from insufficient water due to higher non-functional water points and water point rate.
 
