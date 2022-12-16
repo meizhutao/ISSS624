@@ -158,7 +158,7 @@ length((nga$shapeName[ nga$shapeName %in% nga$shapeName[duplicated(nga$shapeName
 No more duplicated shapeName.
 
 In the code chunk below, freq() of funModeling package is used to display the distribution of status_cle field in wp_nga.
-```{r, eval = FALSE}
+```{r}
 wp_nga <- wp %>%
   mutate(status_cle = replace_na(status_cle, "Unknown"))
 
@@ -182,7 +182,7 @@ wpt_functional <- wp_nga %>%
              "Functional but needs repair"))
 ```
 
-```{r, eval = FALSE}
+```{r}
 freq(data=wpt_functional, 
      input = 'status_cle')
 ```
@@ -199,7 +199,7 @@ wpt_nonfunctional <- wp_nga %>%
              "Non-Functional due to dry season"))
 ```
 
-```{r, eval = FALSE}
+```{r}
 freq(data=wpt_nonfunctional, 
      input = 'status_cle')
 ```
@@ -295,7 +295,7 @@ nga_wp <- nga_wp %>%
   mutate(`pct_usage_less_1000` = `wpt usage less 1000`/`total wpt`) %>%
   mutate(`pct_usage_more_1000` = `wpt usage more 1000`/`total wpt`) %>%
   mutate(`pct_rural` = `wpt rural`/`total wpt`) 
- # select(1,6:9,16:22)
+
 ```
 
 Things to learn from the code chunk above:
@@ -420,7 +420,7 @@ pct_functional <- qtm(nga_wp, "pct_functional")+
             main.title.position = "center",
             main.title.size = 0.5,
             legend.height = 0.5, 
-            legend.width = 0.5,
+            legend.width = 0.4,
             legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
@@ -430,7 +430,7 @@ pct_nonfunctional <- qtm(nga_wp, "pct_non-functional")+
             main.title.position = "center",
             main.title.size = 0.5,
             legend.height = 0.5, 
-            legend.width = 0.5,
+            legend.width = 0.4,
             legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
@@ -446,7 +446,7 @@ wpt_handpump <- qtm(nga_wp, "wpt handpump")+
             main.title.position = "center",
             main.title.size = 0.5,
             legend.height = 0.5, 
-            legend.width = 0.5,
+            legend.width = 0.4,
             legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
@@ -456,7 +456,7 @@ wpt_mechanizedpump <- qtm(nga_wp, "wpt mechanizedpump")+
             main.title.position = "center",
             main.title.size = 0.5,
             legend.height = 0.5, 
-            legend.width = 0.5,
+            legend.width = 0.4,
             legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
@@ -467,7 +467,7 @@ pct_handpump <- qtm(nga_wp, "pct_handpump")+
             main.title.position = "center",
             main.title.size = 0.5,
             legend.height = 0.5, 
-            legend.width = 0.5,
+            legend.width = 0.4,
             legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
@@ -477,7 +477,7 @@ pct_mechanizedpump <- qtm(nga_wp, "pct_mechanizedpump")+
             main.title.position = "center",
             main.title.size = 0.5,
             legend.height = 0.5, 
-            legend.width = 0.5,
+            legend.width = 0.4,
             legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
@@ -493,7 +493,7 @@ wpt_usage_less_1000 <- qtm(nga_wp, "wpt usage less 1000")+
             main.title.size = 0.5,
             legend.height = 0.5, 
             legend.width = 0.4,
-            legend.text.size = 0.4,
+            legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
             frame = TRUE)
@@ -504,7 +504,7 @@ wpt_usage_equal_more_1000 <- qtm(nga_wp, "wpt usage more 1000")+
             main.title.size = 0.5,
             legend.height = 0.5, 
             legend.width = 0.4,
-            legend.text.size = 0.4,
+            legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
             frame = TRUE)
@@ -515,7 +515,7 @@ pct_usage_less_1000 <- qtm(nga_wp, "pct_usage_less_1000")+
             main.title.size = 0.5,
             legend.height = 0.5, 
             legend.width = 0.4,
-            legend.text.size = 0.4,
+            legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
             frame = TRUE)
@@ -525,7 +525,7 @@ pct_usage_equal_more_1000 <- qtm(nga_wp, "pct_usage_more_1000")+
             main.title.size = 0.5,
             legend.height = 0.5, 
             legend.width = 0.4,
-            legend.text.size = 0.4,
+            legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
             frame = TRUE)
@@ -540,7 +540,7 @@ wpt_rural <- qtm(nga_wp, "wpt rural")+
             main.title.size = 0.5,
             legend.height = 0.5, 
             legend.width = 0.4,
-            legend.text.size = 0.4,
+            legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
             frame = TRUE)
@@ -551,28 +551,30 @@ pct_rural <- qtm(nga_wp, "pct_rural")+
             main.title.size = 0.5,
             legend.height = 0.5, 
             legend.width = 0.4,
-            legend.text.size = 0.4,
+            legend.text.size = 0.5,
             legend.title.size = 0.5,
             main.title.fontface = "bold",
             frame = TRUE)
 tmap_arrange(wpt_rural,pct_rural, asp=1, ncol=2)
 ```
 ```{r}
-tmap_arrange(pct_functional,pct_handpump,pct_usage_less_1000,pct_rural,asp=2, ncol=2)
+tmap_arrange(pct_handpump,pct_mechanizedpump, pct_usage_less_1000,pct_usage_equal_more_1000,asp=2, ncol=2)
 ```
-We can see the pct_handpump and pct_usage_less_1000 are showing similar choropleth map, they might be highly correlated. We will do Correlation Analysis at later part.
+We can see both pct_handpump & pct_usage_less_1000 and pct_mechanizedpump & pct_usage_equal_more_1000 are showing similar choropleth map, they might be highly correlated. We will do Correlation Analysis at later part.
 
 # 6 Correlation Analysis
 Before we perform cluster analysis, it is important for us to ensure that the cluster variables are not highly correlated.
 
 We will use corrplot.mixed() function of corrplot package to visualise and analyse the correlation of the input variables.
 ```{r}
+nga_wp <- nga_wp %>%
+  select (1,4:5,12:18)
 nga_wp_var <- nga_wp %>%
   st_set_geometry(NULL)
 ```
 
 ```{r cluster_vars.cor, fig.height = 5, fig.width = 6}
-cluster_vars.cor = cor(nga_wp_var[,11:17])
+cluster_vars.cor = cor(nga_wp_var[,4:10])
 corrplot.mixed(cluster_vars.cor,
          lower = "ellipse", 
                upper = "number",
@@ -674,7 +676,8 @@ hclust_ward <- hclust(proxmat, method = 'ward.D')
 
 We can then plot the tree by using plot() of R Graphics as shown in the code chunk below.
 ```{r}
-plot(hclust_ward, cex = 0.6)
+
+plot(hclust_ward, cex = 0.5)
 ```
 
 ## 7.6 Selecting the optimal clustering algorithm
@@ -744,8 +747,7 @@ cluster_vars_mat <- data.matrix(cluster_vars)
 
 ### 7.9.2 Plotting interactive cluster heatmap using heatmaply()
 In the code chunk below, the heatmaply() of heatmaply package is used to build an interactive cluster heatmap.
-```{r}
-#| fig-height: 12
+```{r }
 heatmaply(normalize(cluster_vars),
           Colv=NA,
           dist_method = "euclidean",
@@ -782,7 +784,17 @@ nga_wp_cluster <- cbind(nga_wp, as.matrix(groups)) %>%
 
 Next, qtm() of tmap package is used to plot the choropleth map showing the cluster formed.
 ```{r}
-qtm(nga_wp_cluster, "HCLUSTER")
+hclust.map <-qtm(nga_wp_cluster, "HCLUSTER")+ tm_borders(alpha = 0.5)+ 
+  tm_layout(main.title = "Hierarchical clustering",
+            main.title.position = "center",
+            main.title.size = 0.8,
+            legend.height = 0.5, 
+            legend.width = 0.4,
+            legend.text.size = 0.5,
+            legend.title.size = 0.5,
+            main.title.fontface = "bold",
+            frame = TRUE)
+tmap_arrange(hclust.map, nrow = 1,ncol = 1)
 ```
 
 ## 7.11 Visual Interpretation of Clusters
@@ -837,11 +849,11 @@ nga_wp.nb <- poly2nb(nga_wp_sp)
 summary(nga_wp.nb)
 ```
 We can plot the neighbours list on nga_wp_sp by using the code chunk below. 
-```{r}
-#|fig.width = 20
-plot(nga_wp_sp, 
+```{r p1, fig.height= 10, fig.width = 15}
+
+p1<- plot(nga_wp_sp, 
      border=grey(.5))
-plot(nga_wp.nb, 
+p1<- plot(nga_wp.nb, 
     coordinates(nga_wp_sp), 
      col="blue", 
      add=TRUE)
@@ -890,10 +902,9 @@ head(nga_wp.mst)
 
 The plot method for the MST include a way to show the observation numbers of the nodes in addition to the edge. As before, we plot this together with the nga_wp boundaries. We can see how the initial neighbour list is simplified to just one edge connecting each of the nodes, while passing through all the nodes.
 
-```{r }
-#| fig.width = 20
-plot(nga_wp_sp, border=gray(.5))
-plot.mst(nga_wp.mst, 
+```{r p2, fig.height= 10, fig.width = 15}
+p2<-plot(nga_wp_sp, border=gray(.5))
+p2<-plot.mst(nga_wp.mst, 
          coordinates(nga_wp_sp), 
          col="blue", 
          cex.lab=0.7, 
@@ -924,14 +935,14 @@ We can check the cluster assignment by using the conde chunk below.
 We can find out how many observations are in each cluster by means of the table command. 
 ```{r}
 ccs5 <- clust5$groups
-ccs5
+#ccs5
 table(ccs5)
 ```
 
 Lastly, we can also plot the pruned tree that shows the four clusters on top of the nga_wp area.
-```{r plot, fig.height = 10, fig.width = 15}
-plot(nga_wp_sp, border=gray(.5))
-plot(clust5, 
+```{r p3, fig.height = 20, fig.width = 15}
+p3 <- plot(nga_wp_sp, border=gray(.5))
+p3 <- plot(clust5, 
      coordinates(nga_wp_sp), 
      cex.lab=.7,
      groups.colors=c("red","green","blue", "brown", "pink"),
@@ -947,30 +958,26 @@ nga_wp_cluster <- nga_wp_cluster [-86,]
 groups_mat <- as.matrix(clust5$groups)
 nga_wp_spatialcluster <- cbind(nga_wp_cluster, as.factor(groups_mat)) %>%
   rename(`SP_CLUSTER`=`as.factor.groups_mat.`)
-qtm(nga_wp_spatialcluster, "SP_CLUSTER")
-```
-
-For easy comparison, it will be better to place both the hierarchical clustering and spatially constrained hierarchical clustering maps next to each other.
-```{r}
-hclust.map <- qtm(nga_wp_cluster,
-                  "HCLUSTER") + 
-  tm_borders(alpha = 0.5) 
-
-shclust.map <- qtm(nga_wp_spatialcluster,
-                   "SP_CLUSTER") + 
-  tm_borders(alpha = 0.5) 
-
-tmap_arrange(hclust.map, shclust.map,
-             asp=1, ncol=2)
+shclust.map <-qtm(nga_wp_spatialcluster, "SP_CLUSTER")+   
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = "Spatially constrained",
+            main.title.position = "center",
+            main.title.size = 0.8,
+            legend.height = 0.5, 
+            legend.width = 0.4,
+            legend.text.size = 0.5,
+            legend.title.size = 0.5,
+            main.title.fontface = "bold",
+            frame = TRUE)
+tmap_arrange(shclust.map, nrow = 1,ncol = 1)
 ```
 
 ## 8.7 Visual Interpretation of Clusters
-
 ```{r}
 ggparcoord(data = nga_wp_spatialcluster,
            columns = c(2:8),
            scale = "std",
-           alphaLines = 0.1,
+           alphaLines = 0.05,
            boxplot = TRUE,
            title = "Multiple Parallel Coordinates Plots of SKATER cluster Variables by Cluster") +
   facet_grid(~ `SP_CLUSTER`) + theme(
@@ -979,7 +986,7 @@ ggparcoord(data = nga_wp_spatialcluster,
   ) +
   theme(axis.text.x = element_text(angle = 90))
 ```
-The parallel coordinate plot above reveals that in Cluster 2, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a concern.
+The parallel coordinate plot above reveals that in Cluster 1 & 2, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a concern.
 
 # 9 Spatially Constrained Hierarchical Clustering
 
@@ -1009,7 +1016,19 @@ groups <- as.factor(cutree(nongeo_cluster, k=5))
 nga_wp_ngeo_cluster <- cbind(nga_wp, as.matrix(groups)) %>%
   rename(`NGCLUSTER` = `as.matrix.groups.`)
 
-qtm(nga_wp_ngeo_cluster, "NGCLUSTER")
+nsh_ngeo.map <- qtm(nga_wp_ngeo_cluster, "NGCLUSTER")+   
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = 
+              "Non-spatially constrained:ClustGeo",
+            main.title.position = "center",
+            main.title.size = 0.8,
+            legend.height = 0.5, 
+            legend.width = 0.4,
+            legend.text.size = 0.5,
+            legend.title.size = 0.5,
+            main.title.fontface = "bold",
+            frame = TRUE)
+tmap_arrange(nsh_ngeo.map, nrow = 1,ncol = 1)
 ```
 
 
@@ -1067,7 +1086,18 @@ nga_wp_Gcluster <- cbind(nga_wp, as.matrix(groups)) %>%
 
 We can now plot the map of the newly delineated spatially constrained clusters.
 ```{r}
-qtm(nga_wp_Gcluster, "GCLUSTER")
+sh_ngeo.map <- qtm(nga_wp_Gcluster, "GCLUSTER")+   
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = "Spatially constrained :ClustGeo",
+            main.title.position = "center",
+            main.title.size = 0.8,
+            legend.height = 0.5, 
+            legend.width = 0.4,
+            legend.text.size = 0.5,
+            legend.title.size = 0.5,
+            main.title.fontface = "bold",
+            frame = TRUE)
+tmap_arrange(sh_ngeo.map, nrow = 1,ncol = 1)
 ```
 
 ## 9.4 Visual Interpretation of Clusters
@@ -1090,3 +1120,43 @@ ggparcoord(data = nga_wp_Gcluster,
   theme(axis.text.x = element_text(angle = 90))
 ```
 The parallel coordinate plot above reveals that in Cluster 3&4, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a concern.
+
+# 10 Summary/Conclusion
+For easy comparison, it will be better to place the all the clustering maps together.
+```{r}
+tmap_arrange(hclust.map, shclust.map,nsh_ngeo.map, sh_ngeo.map,
+             asp=NA, ncol=2)
+```
+
+we can observe that spatially constrainted clustering analysis does not clearly define variables clustering segmentation compared to other clustering analysis method. 
+Hierarchy Cluster Analysis provides better clustering segmentation compared to other clustering analysis method. 
+In this study, we will select ClustGeo method for non-spatially constrained hierarchical cluster analysis and spatially constrained cluster analysis.
+It gives the dissimilarities in the attribute/clustering variable space. D1, on the other hand, gives the dissimilarities in the constraint space. 
+
+In the code chunk below, group_by() and summarise() of dplyr are used to derive mean values of the clustering variables.
+```{r}
+nga_wp_ngeo_cluster %>% 
+  st_set_geometry(NULL) %>%
+  group_by(NGCLUSTER) %>%
+  summarise(mean_wpt_functional = mean(wpt.functional),
+            mean_wpt.non.functional = mean(wpt.non.functional),
+            mean_pct_nonfunctional = mean(pct_functional),
+            mean_pct_nonfunctional = mean(pct_non.functional),
+            mean_pct_handpump = mean(pct_handpump),
+            mean_pct_mechanizedpump = mean(pct_mechanizedpump),mean_pct_rural = mean(pct_rural))
+```
+```{r}
+nga_wp_Gcluster %>% 
+  st_set_geometry(NULL) %>%
+  group_by(GCLUSTER) %>%
+  summarise(mean_wpt_functional = mean(wpt.functional),
+            mean_wpt.non.functional = mean(wpt.non.functional),
+            mean_pct_nonfunctional = mean(pct_functional),
+            mean_pct_nonfunctional = mean(pct_non.functional),
+            mean_pct_handpump = mean(pct_handpump),
+            mean_pct_mechanizedpump = mean(pct_mechanizedpump),mean_pct_rural = mean(pct_rural))
+```
+The above 2 tables reveal that in Cluster 3&4, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a main concern.
+
+We also can refer to "Multiple Parallel Coordinates Plots of non-spatially constrained hierarchical clustering variables by Cluster" and "Multiple Parallel Coordinates Plots of spatially constrained hierarchical clustering variables by Cluster". In summary, in Cluster 3&4, it tends to have higher non-functional water points and rate compared to functional water points and rate at rural area, which might be a main concern, we may consider to drive action starting from cluster 3&4.
+
