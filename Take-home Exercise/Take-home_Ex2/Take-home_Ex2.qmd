@@ -590,6 +590,7 @@ The analysis consists of four major steps:
 ## 7.1 Extracting clustering variables
 The code chunk below will be used to extract the clustering variables from the shan_sf simple feature object into data.frame.
 ```{r}
+
 nga_wp <- nga_wp %>%
   select("shapeName","wpt functional","wpt non-functional", "pct_functional","pct_non-functional", "pct_handpump",  "pct_rural")
 cluster_vars <- nga_wp %>%
@@ -920,7 +921,7 @@ p2<-plot.mst(nga_wp.mst,
 The code chunk below compute the spatially constrained cluster using skater() of spdep package.
 ```{r}
 clust4 <- spdep::skater(edges = nga_wp.mst[,1:2], 
-                 data = cluster_vars, 
+                 data = cluster_vars.std, 
                  method = "euclidean", 
                  ncuts = 3)
 ```
